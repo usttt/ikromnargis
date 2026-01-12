@@ -5,6 +5,27 @@
     <meta charset="UTF-8">
     <title>Таймер</title>
     <style>
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 24px;
+            animation: floatUp linear infinite;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+
         body {
             margin: 0;
             height: 100vh;
@@ -102,6 +123,25 @@
         setInterval(updateTimer, 1000);
         updateTimer();
     </script>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (4 + Math.random() * 6) + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        setInterval(createHeart, 500);
+    </script>
+
 
 </body>
 
