@@ -1,68 +1,108 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-<meta charset="UTF-8">
-<title>Таймер</title>
-<style>
-body {
-    font-family: Arial;
-    background:#111;
-    color:#37c117;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    flex-direction: column;
-}
-#timer {
-    font-size:60px;
-}
+    <meta charset="UTF-8">
+    <title>Таймер</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
 
-#title {
-    color: #ff00b4;
-    font-size: 40px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-}
+        #title {
+            color: #ff5f6d;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 95, 109, 0.6);
+        }
 
-</style>
+        #timer {
+            display: flex;
+            gap: 20px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px 30px;
+            min-width: 120px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .time-value {
+            font-size: 48px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .time-label {
+            font-size: 14px;
+            color: #ffb3b8;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
+
 <body>
     <div id="title">Ikrom & Nargis wedding days left</div>
-    <div id="timer"></div>
-    
-<script>
-    const targetDate = new Date("2026-02-08T00:00:00"); // 8 февраля 2026 00:00
-    
-    function updateTimer() {
-        const now = new Date();
-        const diff = targetDate - now;
-    
-        if (diff <= 0) {
-            document.getElementById("title").innerHTML = "Happy Wedding!";
-            document.getElementById("timer").innerHTML = "";
-            return;
+    <div id="timer">
+        <div class="time-box">
+            <div class="time-value" id="days">0</div>
+            <div class="time-label">DAYS</div>
+        </div>
+        <div class="time-box">
+            <div class="time-value" id="hours">0</div>
+            <div class="time-label">HOURS</div>
+        </div>
+        <div class="time-box">
+            <div class="time-value" id="minutes">0</div>
+            <div class="time-label">MINUTES</div>
+        </div>
+        <div class="time-box">
+            <div class="time-value" id="seconds">0</div>
+            <div class="time-label">SECONDS</div>
+        </div>
+    </div>
+
+    <script>
+        const targetDate = new Date("2026-02-08T00:00:00");
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) return;
+
+            const totalSeconds = Math.floor(diff / 1000);
+
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? "0" + seconds : seconds;
         }
-    
-        const totalSeconds = Math.floor(diff / 1000);
-    
-        const days = Math.floor(totalSeconds / 86400);
-        const hours = Math.floor((totalSeconds % 86400) / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-    
-        document.getElementById("timer").innerHTML =
-            days + "d " +
-            String(hours).padStart(2,"0") + "h " +
-            String(minutes).padStart(2,"0") + "m " +
-            String(seconds).padStart(2,"0") + "s";
-    }
-    
-    setInterval(updateTimer, 1000);
-    updateTimer();
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
     </script>
-    
 
 </body>
+
 </html>
